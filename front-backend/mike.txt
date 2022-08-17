@@ -1,0 +1,19 @@
+const { MongoClient } = require("mongodb");
+// Replace the uri string with your connection string.
+const uri = 
+'mongodb+srv://stino2208:B8JLqYiXCaZdpXlU@iot.dvitnci.mongodb.net/?retryWrites=true&w=majority'
+const client = new MongoClient(uri);
+async function run() {
+  try {
+    const database = client.db('iot-herexamen');
+    const movies = database.collection('future_proof');
+    // Query for a movie that has the title 'Back to the Future'
+    const query = { sensor_id: '1'};
+    const movie = await movies.findOne(query);
+    console.log(movie);
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close();
+  }
+}
+run().catch(console.dir);

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="5889b0e9-48f0-4949-9fbf-636a87e53382" name="CockroachDB Mapping">
+      <data-sources db="b2008ecc-2f91-4b75-ba9e-c86b15beaad3" />
+    </mapping>
+  </component>
+</project>

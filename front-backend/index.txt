@@ -3,14 +3,10 @@ const dotenv = require("dotenv");
 dotenv.config(); 
 
 // server/index.js
-// call libs 
+
 const path =  require('path');
 const express = require("express");
 const helmet = require("helmet"); 
-
-//import personal libs
-const database = require("./database.js"); 
-
 
 const PORT = process.env.PORT || 3001;
 
@@ -18,17 +14,7 @@ const app = express();
 
 app.use(helmet.frameguard()); 
 
-
-const value = 88;
-const testData = {
-    value
-}; 
-
-database.postData(testData); 
-
-database.getData(); 
-
-/*app.use(express.static(path.resolve(__dirname, '../client/build')));
+app.use(express.static(path.resolve(__dirname, '../client/build')));
 
   app.get("/api", (req, res) => {
     res.json({ message: "Hello from server!" });
@@ -59,4 +45,8 @@ function censor(censor) {
     
     return value;  
   }
-}*/
+}
+  host: "databases-auth.000webhost.com",
+  user: "id19424401_stino2208",
+  password: "/VHY#||YrG0KG-Ep", 
+  database: "id19424401_iotherexamen"
