@@ -1,24 +1,26 @@
-
+// server/index.js
+// import environmental variables
 const dotenv = require("dotenv"); 
 dotenv.config(); 
 
-// server/index.js
+
 // call libs 
 const path =  require('path');
 const express = require("express");
 const helmet = require("helmet"); 
+const fs = require('fs'); 
 
 //import personal libs
 const database = require("./database.js"); 
-const fs = require('fs'); 
+const routes = require("./routes.js"); 
+// define the port which service is running on
 const PORT = process.env.PORT || 3001;
 
 const app = express();
 
 app.use(helmet.frameguard()); 
 
-
-
+app.use(express.json()); 
 
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
@@ -31,6 +33,7 @@ app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
   });
 
+app.use('/api/users', routes);
 
 
 app.listen(PORT, () => {
