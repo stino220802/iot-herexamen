@@ -35,6 +35,7 @@ app.get('*', (req, res) => {
 
 app.use('/api/users', routes);
 
+app.use('/api/collector', routes); 
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);

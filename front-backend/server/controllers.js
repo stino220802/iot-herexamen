@@ -1,9 +1,11 @@
+const { generateKey } = require('crypto');
 const asynchandler = require('express-async-handler'); 
-const { checkIfEmailIsNotUsed, comparePassword } = require('./database.js');
+const { checkIfEmailIsNotUsed, comparePassword, getUserData } = require('./database.js');
 
-//const userSchema = require("./model"); 
+
 
 const database = require("./database.js"); 
+const generateWebToken = require('./webtoken.js');
 
 const registerUser = asynchandler(async(req, res) => {
 
@@ -13,8 +15,7 @@ const registerUser = asynchandler(async(req, res) => {
 
     const existingUser = await database.checkIfEmailIsNotUsed(email);
 
-    //console.log("existing" , existingUser);
-
+   
     if(existingUser){
         res.status(400);
         throw new Error("user already exists");  
@@ -24,10 +25,15 @@ const registerUser = asynchandler(async(req, res) => {
     
     console.log(user);
 
+    const userData = await getUserData(email); 
+
     if(user == true){
         res.status(201).json({
-            name: username,
-            email: email,
+            id: userData.id, 
+            name: userData.username,
+            email: userData.email,
+            admin: userData.admin,
+            token:generateWebToken(userData.id),
         }); 
     }
     else if(user == false){
@@ -39,6 +45,7 @@ const registerUser = asynchandler(async(req, res) => {
 
 const authorization = asynchandler(async (req, res) => {
     const{email, password} = req.body; 
+    console.log(req.body);
     const userExists = await checkIfEmailIsNotUsed(email);
 
     if(!userExists){
@@ -47,9 +54,15 @@ const authorization = asynchandler(async (req, res) => {
     }
 
     const passMatch = await comparePassword(email, password);
+    const userData = await getUserData(email); 
     if(passMatch){
         res.json({
-            email: email,
+            _id: userData.id,
+            username: userData.username, 
+            email: userData.email,
+            admin: userData.admin,
+            token:generateWebToken(userData.id),
+            
         });
     }
     else{
